@@ -1,0 +1,14 @@
+nav{
+    background-color: #191919;
+    height: 9dvh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Poppins;
+}
+.main{
+    font-size: xx-large;
+    font-weight: bolder;
+}

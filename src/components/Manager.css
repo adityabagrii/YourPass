@@ -1,0 +1,88 @@
+*{
+    font-family: Poppins;
+}
+.main-manager{
+    margin-left: auto;
+    margin-right: auto;
+    height: 91dvh;
+    background-color: #202020;
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 50%;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+.user-pass{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 1%;
+}
+
+.username{
+    width: 50%;
+}
+
+.pass{
+    display: flex;
+    width: 50%;
+    position: relative;
+}
+
+.passwordINP{
+    width: 100%;
+}
+
+.container > .inp{
+    width: 97.5%;
+}
+
+.inp{
+    border-radius: 1rem;
+    border: none;
+    height: 3vh;
+    padding: 0% 1%;
+}
+
+.Show{
+    position: absolute;
+    right: 2%;
+    top: 3px;
+    cursor: pointer;
+}
+
+.Eye{
+    width: 25px;
+}
+
+.addBtn{
+    font-size: 1.3vh;
+    background-color: white;
+    border-radius: 1rem;
+    margin-top: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    gap: 6px;
+    padding: 0.5rem 1.5rem;
+}
+
+.addBtn:hover{
+    background-color: #f0f0f0;
+}
+
+.addimg{
+    width: 10px;
+    transform: rotate();
+}
