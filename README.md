@@ -68,7 +68,7 @@ Ensure you have the following installed on your local machine:
 
 6. **Open the app in your browser:**
 
-    Visit `http://localhost:3000` to see YourPass in action.
+    Visit `http://localhost:{PORT}` to see YourPass in action.
 
 ## Usage
 
