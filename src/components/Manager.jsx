@@ -2,6 +2,14 @@ import React, {useEffect, useState} from 'react'
 import './Manager.css'
 import Add from './add.svg'
 import Eye from './eye.svg'
+import Copy from './copy.svg'
+import Edit from './edit.svg'
+import Delete from './delete.svg'
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { v4 as uuidv4 } from 'uuid';
 
 const Manager = () => {
     const [show, setShow] = useState(true)
@@ -16,10 +24,61 @@ const Manager = () => {
 
     }, [])
 
+    const handleDelete = (id) => {
+        if(window.confirm('Are you sure you want to delete this password?')) {
+            let newpasswordArray = passwordArray.filter(item => item.id !== id)
+            setpasswordArray(newpasswordArray)
+            localStorage.setItem('passwords', JSON.stringify(newpasswordArray))
+            toast.error('Password Deleted', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        }
+    }
+
+    const handleEdit = (id) => {
+        setForm({...passwordArray.find(item => item.id === id)})
+        let newpasswordArray = passwordArray.filter(item => item.id !== id)
+        setpasswordArray(newpasswordArray)
+    }
+
+    const handleCopy = (text) => {
+        toast('Copied to Clipboard', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
+        navigator.clipboard.writeText(text)
+    }
+
     const handleAdd = () => {
-        setpasswordArray([...passwordArray, Form])
-        localStorage.setItem("passwords", JSON.stringify([...passwordArray, Form]))
-        console.log(passwordArray)
+        if(Form.site === "" || Form.username === "" || Form.password === "") {
+            toast.error('Please fill all the fields', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                });
+            return
+        }
+        setpasswordArray([...passwordArray, {...Form, id:uuidv4()}])
+        localStorage.setItem('passwords', JSON.stringify([...passwordArray, {...Form, id:uuidv4()}]))
+        setForm({site:"", username:"", password:""})
     }
 
     const handleChange = (e) => {
@@ -48,6 +107,7 @@ const Manager = () => {
 
     return (
         <div className="main-manager">
+            <ToastContainer position="top-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="dark"/>
             <div className="container">
                 <input value={Form.site} name = 'site' onChange={handleChange} type="text" className='inp' placeholder='Enter Website URL'/>
                 <div className="user-pass">
@@ -59,7 +119,58 @@ const Manager = () => {
                         </span>
                     </div>
                 </div>
-                <button className='addBtn' onMouseEnter={btnHover} onClick={handleAdd}><img src={Add} className='addimg'/> Add Password</button>
+                <button className='addBtn' onMouseEnter={btnHover} onClick={handleAdd}><img src={Add} className='addimg'/>Save Password</button>
+            </div>
+            <div className="stored">
+                <div className="name">
+                    <p className='heading'>Stored Passwords</p>
+                </div>
+                {passwordArray.length === 0 && <div className='noPasswords'>No Passwords to Show</div>}
+                {passwordArray.length!==0 &&
+                <table className='spasswordsHead'>
+                    <thead className='tableHeading'>
+                        <tr>
+                            <th className='thead'>Website URL</th>
+                            <th className='thead'>Username</th>
+                            <th className='thead'>Password</th>
+                            <th className='thead'>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody className='spasswordsBody'>
+                        {passwordArray.map((item, index)=>{
+                            return (
+                                <tr key={index}>
+                                    <td className='tableData'>
+                                        <div className='datadiv'>
+                                            <a href={item.site} target='_blank'>{item.site}</a>
+                                            <img className='copyIcon' src={Copy} alt="" onClick={()=>handleCopy(item.site)}/>
+                                        </div>
+                                    </td>
+                                    <td className='tableData'>
+                                        <div className='datadiv'>
+                                            {item.username}
+                                            <img className='copyIcon' src={Copy} alt="" onClick={()=>handleCopy(item.username)}/>
+                                        </div>
+                                    </td>
+                                    <td className='tableData'>
+                                        <div className='datadiv'>
+                                            {item.password}
+                                            <img className='copyIcon' src={Copy} alt="" onClick={()=>handleCopy(item.password)}/>
+                                        </div>
+                                    </td>
+                                    <td className='tableData'>
+                                        <span>
+                                            <img className='icons' src={Edit} alt="" onClick={()=>handleEdit(item.id)}/>
+                                        </span>
+                                        <span>
+                                            <img className='icons' src={Delete} alt="" onClick={()=>handleDelete(item.id)}/>
+                                        </span>
+                                    </td>                
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>}
             </div>
         </div>
     )
