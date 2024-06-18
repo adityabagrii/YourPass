@@ -1,6 +1,6 @@
 nav{
     background-color: #191919;
-    height: 9dvh;
+    height: 10dvh;
     color: white;
     display: flex;
     flex-direction: column;
@@ -8,7 +8,26 @@ nav{
     align-items: center;
     font-family: Poppins;
 }
+
 .main{
-    font-size: xx-large;
+    font-size: 2rem;
     font-weight: bolder;
+}
+
+.subtext{
+    font-size:1.5rem;
+}
+
+@media (max-width: 768px){
+    nav{
+        height:7dvh;
+    }
+    .main{
+        font-size: 4vw;
+        font-weight: bolder;
+    }
+    
+    .subtext{
+        font-size:2vw;
+    }
 }
