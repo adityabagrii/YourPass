@@ -41,6 +41,10 @@
 }
 
 .passwordINP{
+    border-radius: 1rem;
+    border: none;
+    height: 3vh;
+    padding: 0% 2%;
     width: 100%;
 }
 

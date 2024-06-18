@@ -79,6 +79,16 @@ const Manager = () => {
         setpasswordArray([...passwordArray, {...Form, id:uuidv4()}])
         localStorage.setItem('passwords', JSON.stringify([...passwordArray, {...Form, id:uuidv4()}]))
         setForm({site:"", username:"", password:""})
+        toast('Passworded Added Sucessfully', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+            });
     }
 
     const handleChange = (e) => {
@@ -113,7 +123,7 @@ const Manager = () => {
                 <div className="user-pass">
                     <input value={Form.username} name='username' onChange={handleChange} type="text" className='inp username' placeholder='Enter Username'/>
                     <div className="pass">
-                        <input value={Form.password} name='password' onChange={handleChange} type="password" className='inp passwordINP' placeholder='Enter Password'/>
+                        <input value={Form.password} name='password' onChange={handleChange} type="password" className='passwordINP' placeholder='Enter Password'/>
                         <span className='Show' onClick={handleShow}>
                             <img src={Eye} alt="" className='Eye'/>
                         </span>
