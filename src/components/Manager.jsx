@@ -16,33 +16,37 @@ const Manager = () => {
     const [Form, setForm] = useState({site:"", username:"", password:""})
     const [passwordArray, setpasswordArray] = useState([])
 
-    const getPasswords = async () => {
-        let req = await fetch("http://localhost:3000/")
-        let passwords = await req.json()
-        console.log(passwords)
-        setpasswordArray(passwords)
-        console.log(passwords)
-    }
+    // const getPasswords = async () => {
+    //     let req = await fetch("http://localhost:3000/")
+    //     let passwords = await req.json()
+    //     console.log(passwords)
+    //     setpasswordArray(passwords)
+    //     console.log(passwords)
+    // }
     
 
     useEffect (() => {
-        getPasswords()
+        // getPasswords()
+        let passwords = JSON.parse(localStorage.getItem('passwords'))
+        if(passwords) {
+            setpasswordArray(passwords)
+        }
         
     }, [])
 
     const handleDelete = async (id) => {
         if(window.confirm('Are you sure you want to delete this password?')) {
-            let password = passwordArray.find(item => item.id === id)
+            // let password = passwordArray.find(item => item.id === id)
             let newpasswordArray = passwordArray.filter(item => item.id !== id)
             setpasswordArray(newpasswordArray)
-            // localStorage.setItem('passwords', JSON.stringify(newpasswordArray))
-            let res = await fetch('http://localhost:3000/', {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(password)
-            })
+            localStorage.setItem('passwords', JSON.stringify(newpasswordArray))
+            // let res = await fetch('http://localhost:3000/', {
+            //     method: 'DELETE',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify(password)
+            // })
             toast.error('Password Deleted', {
                 position: "top-right",
                 autoClose: 5000,
@@ -59,15 +63,15 @@ const Manager = () => {
     const handleEdit = async (id) => {
         setForm({...passwordArray.find(item => item.id === id), id: id})
         let newpasswordArray = passwordArray.filter(item => item.id !== id)
-        let password = passwordArray.find(item => item.id === id)
+        // let password = passwordArray.find(item => item.id === id)
         setpasswordArray(newpasswordArray)
-        let res = await fetch('http://localhost:3000/', {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(password)
-        })
+        // let res = await fetch('http://localhost:3000/', {
+        //     method: 'DELETE',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(password)
+        // })
     }
 
     const handleCopy = (text) => {
@@ -99,14 +103,14 @@ const Manager = () => {
             return
         }
         setpasswordArray([...passwordArray, {...Form, id:uuidv4()}])
-        // localStorage.setItem('passwords', JSON.stringify([...passwordArray, {...Form, id:uuidv4()}]))
-        let res = await fetch('http://localhost:3000/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({...Form, id:uuidv4()})
-        })
+        localStorage.setItem('passwords', JSON.stringify([...passwordArray, {...Form, id:uuidv4()}]))
+        // let res = await fetch('http://localhost:3000/', {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({...Form, id:uuidv4()})
+        // })
         setForm({site:"", username:"", password:""})
         toast('Passworded Added Sucessfully', {
             position: "top-right",
